@@ -1,0 +1,25 @@
+form {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 25em;
+    font-family: sans-serif;
+}
+
+div {
+    flex-grow: 1;
+}
+
+input {
+    border: none;
+    border-bottom: 1px solid black;
+}
+
+button {
+    margin: 1em;
+    border-radius: 2em;
+    background-color: #ff6348;
+    color: white;
+    padding: 0.7em 1.4em;
+    font-family: 'Open Sans', sans-serif;
+}
