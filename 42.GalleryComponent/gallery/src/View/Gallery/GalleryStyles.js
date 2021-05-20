@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core/styles";
 
-const columns = 4;
+const columns = 2;
 const cellSizePer = 100 / columns;
 
 const useStyles = makeStyles((theme) => ({

@@ -1,0 +1,1 @@
+test.todo("Testing service image getter");

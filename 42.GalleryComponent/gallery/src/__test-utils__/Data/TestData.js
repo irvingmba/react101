@@ -17,4 +17,9 @@ export default [
     width: 300,
     height: 768,
   },
+  {
+    src: "https://picsum.photos/400",
+    width: 400,
+    height: 400,
+  },
 ];
