@@ -1,9 +1,35 @@
-import { GridList, GridListTile } from "@material-ui/core";
+import { Button, GridList, GridListTile } from "@material-ui/core";
 import useStyles from "./GalleryStyles";
-import { arrayOf, shape, string, number } from "prop-types";
+import { arrayOf, shape, string, number, func } from "prop-types";
+import { useEffect } from "react";
 
-function Gallery({ data = [] }) {
+function Gallery({
+  data = [],
+  prevBtn = null,
+  nextBtn = null,
+  bottomReached = null,
+  prevBtnClick = null,
+  nextBtnClick = null
+}) {
   const classes = useStyles();
+
+
+  function handleScroll(event) {
+    const scrollTop = event.srcElement.scrollingElement.scrollTop;
+    const scrollTopMax = event.srcElement.scrollingElement.scrollTopMax;
+    if (scrollTop === scrollTopMax) {
+      console.log("bottom reached");
+      if(bottomReached && typeof bottomReached === "function") bottomReached(true);
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return function clear() {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  });
+
   return (
     <div className={classes.root}>
       <GridList
@@ -27,6 +53,16 @@ function Gallery({ data = [] }) {
           );
         })}
       </GridList>
+      {prevBtn ? (
+        <Button variant={"contained"} color={"primary"} onClick={prevBtnClick}>
+          {prevBtn}
+        </Button>
+      ) : null}
+      {nextBtn ? (
+        <Button variant={"contained"} color={"primary"} onClick={nextBtnClick}>
+          {nextBtn}
+        </Button>
+      ) : null}
     </div>
   );
 }
@@ -39,6 +75,11 @@ Gallery.propTypes = {
       height: number,
     })
   ),
+  prevBtn: string,
+  nextBtn: string,
+  bottomReached: func,
+  prevBtnClick: func,
+  nextBtnClick: func
 };
 
 export default Gallery;

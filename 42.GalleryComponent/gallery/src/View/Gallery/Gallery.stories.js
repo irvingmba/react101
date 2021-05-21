@@ -15,12 +15,18 @@ export const FullDoubleRow = Template.bind({});
 
 SimpleFull.args = {
   data: new Array(10).fill(testData[0]),
+  prevBtn: "Previous",
+  nextBtn: "Next",
 };
 
 FullDoubleColumn.args = {
   data: new Array(10).fill(testData[1]),
+  prevBtn: "Previous",
+  nextBtn: "Next",
 };
 
 FullDoubleRow.args = {
   data: new Array(10).fill(testData[2]),
+  prevBtn: "Previous",
+  nextBtn: "Next",
 };
