@@ -1,61 +1,51 @@
-// import logo from "./logo.svg";
 import Gallery from "./View/Gallery";
-import getImages from "./Services/getImages";
-import { useEffect, useReducer, useState } from "react";
-// import useStyles from "./AppStyles";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getPageAction, INIT_PAGE, UPDATE_IMAGES } from "./State/Sagas/getPage";
+import { createSelector } from "@reduxjs/toolkit";
+import gallerySlice from "./State/GallerySlice";
 
-function reducer(state = {}, action) {
-  switch (action.type) {
-    case "current": {
-      return { ...state, current: action.payload };
-    }
-    case "previous": {
-      return { ...state, previous: action.payload };
-    }
-    case "next": {
-      return { ...state, next: action.payload };
-    }
-    case "buttons": {
-      return { ...state, ...action.payload };
-    }
-    default:
-      return state;
-  }
-}
-function action(type, payload) {
-  return { type, payload };
-}
+const selectCurrentImages = createSelector(
+  (state) => state.images,
+  (state) => state.page,
+  (images, page) => images[page - 1]
+);
 
 function App() {
-  // const classes = useStyles();
-  const [page, setPage] = useState(1);
-  const [bottom, setBottom] = useState(false);
-  const [nextBtn, setNextBtn] = useState(null);
-  const [state, dispatch] = useReducer(reducer, { current: {} });
+  const dispatch = useDispatch();
+
+  const pages = useSelector((state) => state.total);
+  const page = useSelector((state) => state.page);
+  const currentImages = useSelector(selectCurrentImages);
+
+  if (!Array.isArray(currentImages)) dispatch(getPageAction(INIT_PAGE));
+
+  function handlePage(event, value) {
+    dispatch(gallerySlice.actions.updatePage(value));
+  }
+
+  function handleScroll(event) {
+    const scrollTop = event.srcElement.scrollingElement.scrollTop;
+    const scrollTopMax = event.srcElement.scrollingElement.scrollTopMax;
+    if (scrollTop === scrollTopMax) {
+      dispatch(getPageAction(UPDATE_IMAGES));
+    }
+  }
 
   useEffect(() => {
-    async function asyncGetImages() {
-      const _resp = await getImages("g1", 10, page);
-      const data = _resp.data;
-      if (!state.current.images) dispatch({ type: "current", payload: data });
-      if (bottom) {
-        const prev = await getImages("g1", 10, page - 1);
-        const next = await getImages("g1", 10, page + 1);
-        const prevData = prev && "data" in prev ? prev.data : {};
-        const nextData = next && "data" in next ? next.data : {};
-        dispatch(action("buttons", { previous: prevData, next: nextData }));
-      }
-    }
-    asyncGetImages();
-  }, [bottom]);
+    window.addEventListener("scroll", handleScroll);
+    return function clear() {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  });
 
   return (
-    <div className={"App"}>
+    <div className={"App"} role="application">
       <Gallery
-        data={state.current.images}
-        prevBtn={bottom ? "previous" : null}
-        nextBtn={bottom ? "next" : null}
-        bottomReached={setBottom}
+        data={currentImages}
+        pages={pages}
+        page={page}
+        handlePage={handlePage}
       />
     </div>
   );

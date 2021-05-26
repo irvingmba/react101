@@ -1,7 +1,6 @@
 import { makeStyles } from "@material-ui/core/styles";
 
-const columns = 2;
-const cellSizePer = 100 / columns;
+export const galColumns = 3;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -13,16 +12,23 @@ const useStyles = makeStyles((theme) => ({
   },
   gridList: {
     width: "100%",
-    // height: 450,
     // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
     transform: "translateZ(0)",
+    display: "grid",
+    gridTemplateColumns: `repeat(auto-fit, minmax(calc(100%/${galColumns}), 1fr))`,
+    gridTemplateRows: `auto`,
+    gridAutoFlow: "dense"
   },
-  tile: {
-    maxWidth: (cellSizePer * 2).toString() + "%",
+  doubleColTile: {
+    gridColumn: "span 2",
+  },
+  doubleRowTile: {
+    gridRow: "span 2",
   },
   image: {
     width: "100%",
-    height: "auto",
+    height: "100%",
+    objectFit: "cover",
   },
 }));
 

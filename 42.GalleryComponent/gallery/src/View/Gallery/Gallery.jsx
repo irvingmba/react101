@@ -1,68 +1,50 @@
-import { Button, GridList, GridListTile } from "@material-ui/core";
-import useStyles from "./GalleryStyles";
-import { arrayOf, shape, string, number, func } from "prop-types";
-import { useEffect } from "react";
+import { GridList, GridListTile } from "@material-ui/core";
+import Pagination from "@material-ui/lab/Pagination";
+import { default as useStyles } from "./GalleryStyles";
+import { arrayOf, shape, string, number } from "prop-types";
 
-function Gallery({
-  data = [],
-  prevBtn = null,
-  nextBtn = null,
-  bottomReached = null,
-  prevBtnClick = null,
-  nextBtnClick = null
-}) {
+function Gallery({ data = [], pages = 0, page = 0, handlePage = null }) {
   const classes = useStyles();
-
-
-  function handleScroll(event) {
-    const scrollTop = event.srcElement.scrollingElement.scrollTop;
-    const scrollTopMax = event.srcElement.scrollingElement.scrollTopMax;
-    if (scrollTop === scrollTopMax) {
-      console.log("bottom reached");
-      if(bottomReached && typeof bottomReached === "function") bottomReached(true);
-    }
-  }
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return function clear() {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  });
 
   return (
     <div className={classes.root}>
       <GridList
         cellHeight={"auto"}
         className={classes.gridList}
-        cols={2}
+        cols={1}
         aria-label={"Picture gallery"}
       >
-        {data.map((img, index) => {
-          const { src, width, height } = img;
-          const widthProp = width / height;
-          const heightProp = height / width;
-          return (
-            <GridListTile
-              key={src + index}
-              cols={widthProp >= 2 ? 2 : 1}
-              rows={heightProp >= 2 ? 2 : 1}
-            >
-              <img className={classes.image} src={src} alt={""} />
-            </GridListTile>
-          );
-        })}
+        {data && data.length
+          ? data.map((img, index) => {
+              const { src, width, height } = img;
+              const widthProp = width / height;
+              const heightProp = height / width;
+              return (
+                <GridListTile
+                  key={src + index}
+                  cols={1}
+                  rows={1}
+                  className={
+                    widthProp >= 2
+                      ? classes.doubleColTile
+                      : heightProp >= 2
+                      ? classes.doubleRowTile
+                      : null
+                  }
+                >
+                  <img className={classes.image} src={src} alt={""} />
+                </GridListTile>
+              );
+            })
+          : null}
       </GridList>
-      {prevBtn ? (
-        <Button variant={"contained"} color={"primary"} onClick={prevBtnClick}>
-          {prevBtn}
-        </Button>
-      ) : null}
-      {nextBtn ? (
-        <Button variant={"contained"} color={"primary"} onClick={nextBtnClick}>
-          {nextBtn}
-        </Button>
-      ) : null}
+      <Pagination
+        count={pages}
+        variant="outlined"
+        color="primary"
+        page={page}
+        onChange={handlePage}
+      />
     </div>
   );
 }
@@ -75,11 +57,8 @@ Gallery.propTypes = {
       height: number,
     })
   ),
-  prevBtn: string,
-  nextBtn: string,
-  bottomReached: func,
-  prevBtnClick: func,
-  nextBtnClick: func
+  pages: number,
+  page: number,
 };
 
 export default Gallery;
