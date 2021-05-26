@@ -9,7 +9,6 @@ const initialState = {
 function init(state, action) {
   const allImages = [...state.images];
   const { images: updImages, page } = action.payload;
-  console.log(allImages, updImages);
   allImages[page - 1] = updImages;
   const images = allImages;
   return { ...state, ...action.payload, images };

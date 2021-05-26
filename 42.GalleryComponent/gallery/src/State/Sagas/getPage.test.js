@@ -1,10 +1,11 @@
 import { runSaga } from "redux-saga";
-import { ASC_GET_PAGE, getPage, getPageAction, INIT_PAGE } from "./getPage";
+import { ASC_GET_PAGE, getPage, getPageAction, INIT_PAGE, UPDATE_IMAGES } from "./getPage";
 import { jest } from "@jest/globals";
-import * as getImages from "../../Services/getImages";
+import getImages from "../../Services/getImages";
+import gallerySlice from "../GallerySlice";
 
 // __spies__
-const spyImages = jest.spyOn(getImages, "default");
+jest.mock("../../Services/getImages");
 
 describe("Testing action to request a page", () => {
   test("Testing action function", () => {
@@ -15,8 +16,8 @@ describe("Testing action to request a page", () => {
 });
 
 describe("Testing generator to request a page", () => {
-  spyImages.mockReturnValueOnce({ data: 1 });
   test("Execution of generator", async () => {
+    getImages.mockReturnValueOnce({ data: 1 });
     const dispatched = [];
     const saga = await runSaga(
       {
@@ -30,5 +31,30 @@ describe("Testing generator to request a page", () => {
       getPage,
       getPageAction(INIT_PAGE)
     ).toPromise();
+    expect(dispatched).toHaveLength(1);
+    expect(dispatched).toEqual(
+      expect.arrayContaining([gallerySlice.actions.init(1)])
+    );
+  });
+
+  test("Execution of generator", async () => {
+    getImages.mockReturnValueOnce({ data: 1 });
+    const dispatched = [];
+    const saga = await runSaga(
+      {
+        dispatch(action) {
+          dispatched.push(action);
+        },
+        getState() {
+          return { page: 1, id: "g1", total: 5 };
+        },
+      },
+      getPage,
+      getPageAction(UPDATE_IMAGES)
+    ).toPromise();
+    expect(dispatched).toHaveLength(1);
+    expect(dispatched).toEqual(
+      expect.arrayContaining([gallerySlice.actions.updateImages([1])])
+    );
   });
 });

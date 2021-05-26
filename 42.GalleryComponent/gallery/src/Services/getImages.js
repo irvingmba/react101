@@ -9,6 +9,4 @@ export default function getImages(galleryId, count, page) {
       page,
     },
   })
-    .catch((reason) => console.error(reason))
-    .then((res) => res);
 }
