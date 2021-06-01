@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 
 import {
@@ -20,15 +20,17 @@ Chart.register(
   Title
 );
 
-function ChartComp({ title, labels, data }) {
+function ChartComp({ title, labels, data, updPoint }) {
   const canvasRef = useRef(null);
+
+  const chartRef = useRef(null);
 
   useEffect(() => {
     const collected = {
       labels,
       datasets: [
         {
-          data,
+          data: [...data],
           fill: false,
           borderColor: "rgb(75, 192, 192)",
         },
@@ -40,10 +42,22 @@ function ChartComp({ title, labels, data }) {
       data: collected,
       options,
     });
+
+    chartRef.current = chart;
+
     return function cleanup() {
       chart.destroy();
     };
-  });
+  }, []);
+
+  useEffect(() => {
+    const [point] = updPoint;
+    if(typeof point === "number"){
+      chartRef.current.data.datasets[0].data.shift();
+      chartRef.current.data.datasets[0].data.push(point);
+    }
+    chartRef.current.update();
+  }, [updPoint]);
 
   return (
     <div>
@@ -53,13 +67,17 @@ function ChartComp({ title, labels, data }) {
 }
 
 ChartComp.propTypes = {
+  title: PropTypes.string,
   labels: PropTypes.array,
   data: PropTypes.array,
+  updPoint: PropTypes.array
 };
 
 ChartComp.defaultProps = {
+  title: "",
   labels: [],
   data: [],
+  updPoint: []
 };
 
 export default ChartComp;
