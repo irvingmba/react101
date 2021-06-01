@@ -3,8 +3,7 @@ import { fork, takeEvery } from "redux-saga/effects";
 import rootSaga from "./RootSaga";
 import updateChartData from "./UpdateChartData";
 import { AS_UPDT_CHART_DATA } from "./UpdateChartData/UpdateChartDataAct";
-
-const spyError = jest.spyOn(console, "error");
+import channUpdDataPoint from "./UpdateDataPoint/updateDataPoint";
 
 describe("Testing root saga", () => {
   test("When calling the saga, it waits for an action to trigger another saga", () => {
@@ -13,10 +12,7 @@ describe("Testing root saga", () => {
     expect(watchFn.value).toEqual(
       takeEvery(AS_UPDT_CHART_DATA, updateChartData)
     );
-  });
-
-  test("Testing errors within saga", () => {
-    spyError.mockImplementationOnce(jest.fn());
-    const watcher = rootSaga();
+    const watchChannel = watcher.next();
+    expect(watchChannel.value).toEqual(fork(channUpdDataPoint));
   });
 });
