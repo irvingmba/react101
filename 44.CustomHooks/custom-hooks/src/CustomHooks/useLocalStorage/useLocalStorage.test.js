@@ -2,12 +2,6 @@ import useLocalStorage from "./useLocalStorage";
 import { cleanup, render } from "@testing-library/react";
 import { useEffect, useState } from "react";
 
-// __mocks__
-jest.mock("react", () => ({
-  ...jest.requireActual("react"),
-  useState: jest.fn(),
-}));
-
 const defineLocalStorage = () =>
   Object.defineProperty(window, "localStorage", {
     writable: true,
@@ -45,59 +39,68 @@ const initLocalStorage = () => {
 };
 
 describe("Test local storage hook", () => {
-  const mockSetInit = jest.fn();
   beforeEach(() => {
     initLocalStorage();
-    mockSetInit.mockClear();
-    useState.mockImplementation((init) => [init, mockSetInit]);
   });
 
   afterEach(cleanup);
 
-  test("Initializing hook without arguments will store an empty object", () => {
+  test("Initializing hook without argumets, it won't store a thing", () => {
     function Test() {
       const [storage, setStorage] = useLocalStorage();
-      expect(storage).toEqual({});
+      expect(storage).not.toBeDefined();
       expect(setStorage).toEqual(expect.any(Function));
       return <></>;
     }
     render(<Test />);
   });
 
-  test("When initializing with an object, it will send the object to local storage", () => {
+  test("When initializing with a value, it will store the value in the passed key", () => {
     function Test() {
-      const initial = { hello: "world" };
-      const [storage, setStorage] = useLocalStorage(initial);
-      expect(localStorage.setItem).toHaveBeenCalledWith("hello", "world");
-      expect(localStorage.getItem).toHaveBeenCalledWith("hello");
-      expect(storage).toEqual(initial);
+      const key = "hello",
+        value = "world";
+      const [storage, setStorage] = useLocalStorage(key, value);
+      useEffect(() => {
+        expect(localStorage.setItem).toHaveBeenCalledWith("hello", "world");
+        expect(localStorage.getItem).toHaveBeenCalledWith("hello");
+        expect(storage).toEqual(value);
+      });
       return <></>;
     }
     render(<Test />);
   });
 
-  test("When initializing with an array or any other value, it will transform it into an object", () => {
+  test("When initialized and the item is stored in local storage, it will take the stored value", () => {
+    localStorage.setItem("hello", "people");
     function Test() {
-      const initial = ["hello", "world"];
-      const [storage, setStorage] = useLocalStorage(initial);
-      expect(localStorage.setItem).toHaveBeenCalledWith("0", "hello");
-      expect(localStorage.setItem).toHaveBeenCalledWith("1", "world");
-      expect(storage).toEqual({ 0: "hello", 1: "world" });
+      const key = "hello",
+        value = "world";
+      const [storage, setStorage] = useLocalStorage(key, value);
+      useEffect(() => {
+        expect(localStorage.getItem).toHaveBeenCalledWith("hello");
+        expect(storage).toEqual("people");
+      });
       return <></>;
     }
     render(<Test />);
   });
+
 
   test("Use setStorage to change the state of local storage", () => {
-    localStorage.clear.mockImplementation(initLocalStorage);
+    localStorage.setItem("hello", "people");
     function Test() {
-      const initial = { hello: "world" };
-      const [storage, setStorage] = useLocalStorage(initial);
-      expect(storage).toEqual(initial);
-      const expected = { hi: "people" };
-      setStorage(expected);
-      expect(mockSetInit).toHaveBeenCalledWith(expected);
-      return <></>;
+      const key = "hello",
+        value = "world";
+      const [storage, setStorage] = useLocalStorage(key, value);
+      if(storage === "people"){
+        setStorage("humans");
+      };
+      useEffect(() => {
+        expect(localStorage.setItem).toHaveBeenCalledWith("hello", "humans");
+        expect(localStorage.getItem).toHaveBeenCalledWith("hello");
+        expect(storage).toEqual("humans");
+      });
+    return <></>;
     }
     render(<Test />);
   });

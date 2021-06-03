@@ -1,18 +1,21 @@
-import { useState } from "react";
-import configStorageSetter from "../../Utils/configStorageSetter";
+import { useCallback, useMemo, useState } from "react";
 
-export default function useLocalStorage(initValue = {}) {
-  Object.keys(initValue).map((key) =>
-    localStorage.setItem(key, initValue[key])
-  );
+export default function useLocalStorage(key, value) {
+  const initValue = useMemo(() => {
+    const stored = localStorage.getItem(key);
+    if (stored) return stored;
+    localStorage.setItem(key, value);
+    return value;
+  }, [value]);
 
-  const finalState = Object.keys(localStorage).reduce((acc, key) => {
-    acc[key] = localStorage.getItem(key);
-    return acc;
-  }, {});
+  const [state, setState] = useState(initValue);
 
-  const [state, setState] = useState(Object.freeze(finalState));
-  const setStorage = configStorageSetter(localStorage, setState);
+  const setStorage = useCallback(
+    (update) => {
+      setState(update);
+      localStorage.setItem(key, update);
+    }
+  , []);
 
   return [state, setStorage];
 }
