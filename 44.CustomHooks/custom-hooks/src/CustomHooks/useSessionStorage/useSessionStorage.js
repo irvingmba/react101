@@ -1,18 +1,21 @@
-import { useState } from "react";
-import configStorageSetter from "../../Utils/configStorageSetter";
+import { useCallback, useMemo, useState } from "react";
 
-export default function useSessionStorage(initValue = {}) {
-  Object.keys(initValue).map((key) =>
-    sessionStorage.setItem(key, initValue[key])
-  );
+export default function useSessionStorage(key, value) {
+  const initValue = useMemo(() => {
+    const stored = sessionStorage.getItem(key);
+    if (stored) return stored;
+    sessionStorage.setItem(key, value);
+    return value;
+  }, [value]);
 
-  const finalState = Object.keys(sessionStorage).reduce((acc, key) => {
-    acc[key] = sessionStorage.getItem(key);
-    return acc;
-  }, {});
+  const [state, setState] = useState(initValue);
 
-  const [state, setState] = useState(Object.freeze(finalState));
-  const setStorage = configStorageSetter(sessionStorage, setState);
+  const setStorage = useCallback(
+    (update) => {
+      setState(update);
+      sessionStorage.setItem(key, update);
+    }
+  , []);
 
   return [state, setStorage];
 }
