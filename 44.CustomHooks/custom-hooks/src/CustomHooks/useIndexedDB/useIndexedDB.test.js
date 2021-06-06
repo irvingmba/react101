@@ -7,21 +7,21 @@ function fakeIndexedDB() {
     onsuccess: null,
     callOnSuccess() {
       if (typeof this.onsuccess === "function") {
-        const event = { target: {objectStore, transaction} };
+        const event = { target: { objectStore, transaction } };
         this.onsuccess(event);
       }
     },
-    onupgradeneeded : null,
+    onupgradeneeded: null,
     callOnUpgradeneeded() {
-      if(typeof this.onupgradeneeded === "function") {
-        const event = {target: {result: {objectStore, transaction}}}
+      if (typeof this.onupgradeneeded === "function") {
+        const event = { target: { result: { objectStore, transaction } } };
       }
-    }
+    },
   };
 
   const objectStore = {
     store: null,
-    getAll(){}
+    getAll() {},
   };
 
   const transaction = {};
@@ -38,7 +38,6 @@ function fakeIndexedDB() {
 }
 
 describe("Testing hook for indexed db", () => {
-
   beforeEach(() => {
     fakeIndexedDB();
   });
@@ -58,9 +57,28 @@ describe("Testing hook for indexed db", () => {
 
   test("Getting data from indexed db", () => {
     function Test() {
-      const { read } = useIndexedDB();
+      const { store, put, remove } = useIndexedDB();
       useEffect(() => {
-        console.log(read());
+        expect(store).toHaveLength(0);
+        expect(put).toEqual(expect.any(Function));
+        expect(remove).toEqual(expect.any(Function));
+      });
+      return <></>;
+    }
+    render(<Test />);
+  });
+
+  test("Adding data to indexedDB", () => {
+    function Test() {
+      const { store, put, remove } = useIndexedDB();
+
+      useEffect(() => {
+        put("Testing");
+      })
+      useEffect(() => {
+        expect(store).toHaveLength(1);
+        expect(put).toEqual(expect.any(Function));
+        expect(remove).toEqual(expect.any(Function));
       });
       return <></>;
     }

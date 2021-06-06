@@ -21,12 +21,10 @@ function action(type, payload) {
 }
 
 export default function useIndexedDB(store = "default", dbName = "myDB") {
-  // const [state, setState] = useState(null);
   const [state, dispatch] = useReducer(reducer, []);
 
-  const request = indexedDB.open(dbName, 3);
-  // let transaction;
-  // let objectStore;
+  const dateVersion = useMemo(()=>Date.now(), []);
+  const request = indexedDB.open(dbName, dateVersion);
   let db = new Promise((res) => {
     request.onsuccess = function (event) {
       const _db = event.target.result;
@@ -42,12 +40,15 @@ export default function useIndexedDB(store = "default", dbName = "myDB") {
     console.log("done upgrade");
   };
 
-  function getStore(){
-    const objectStore = db.then((_db) =>
+  function getAsyncStore(){
+    return db.then((_db) =>
       _db.transaction(store, "readwrite").objectStore(store)
     );
+  };
+
+  function getStoredData(){
+    const objectStore = getAsyncStore();
     objectStore.then((store) => {
-      // const objectStore = trans.objectStore(store);
       dispatch(action("CLEAR"));
       const cursorTransaction = store.openCursor();
       cursorTransaction.onsuccess = function (event) {
@@ -63,43 +64,25 @@ export default function useIndexedDB(store = "default", dbName = "myDB") {
   };
 
   useEffect(() => {
-    getStore();
+    getStoredData();
   }, []);
 
-  function create(value) {
-    const objStore = db.then((_db) =>
-      _db.transaction(store, "readwrite").objectStore(store)
-    );
-    objStore.then((store) => {
-      const operation = store.add(value);
-      operation.onsuccess = function (event) {
-        const result = event.target.result;
-        console.log(result);
-        getStore();
-      };
-    });
-  }
-
   function remove(key) {
-    const objStore = db.then((_db) =>
-      _db.transaction(store, "readwrite").objectStore(store)
-    );
+    const objStore = getAsyncStore();
     objStore.then((store) => {
       const removeOperation = store.delete(key);
       removeOperation.onsuccess = function (event) {
-        getStore();
+        getStoredData();
         };
     });
   }
 
   function update(item, key){
-    const objStore = db.then((_db) =>
-      _db.transaction(store, "readwrite").objectStore(store)
-    );
+    const objStore = getAsyncStore();
     objStore.then((store)=>{
       const updateOperation = store.put(item, key);
       updateOperation.onsuccess = function(e){
-        getStore();
+        getStoredData();
       };
     });
   };
