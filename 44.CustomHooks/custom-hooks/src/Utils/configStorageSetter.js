@@ -5,6 +5,8 @@ export default function configStorageSetter(bwrStorage, setState) {
       if (value.hasOwnProperty(key)) {
         const prop = value[key];
         bwrStorage.setItem(key, prop);
+        console.log("within setStorage",key, prop);
+        console.log("after", bwrStorage);
       }
     }
     setState(value);

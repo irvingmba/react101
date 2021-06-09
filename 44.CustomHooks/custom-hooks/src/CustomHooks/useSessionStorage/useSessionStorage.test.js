@@ -1,9 +1,9 @@
-import useLocalStorage from "./useLocalStorage";
+import useSessionStorage from "./useSessionStorage";
 import { cleanup, render } from "@testing-library/react";
 import { useEffect, useState } from "react";
 
-const defineLocalStorage = () =>
-  Object.defineProperty(window, "localStorage", {
+const defineSessionStorage = () =>
+  Object.defineProperty(window, "sessionStorage", {
     writable: true,
     value: Object.defineProperties(
       {},
@@ -24,30 +24,30 @@ const defineLocalStorage = () =>
     ),
   });
 const defineSetItem = () => {
-  localStorage.setItem.mockImplementation((key, value) => {
-    Object.assign(localStorage, { [key]: value });
+  sessionStorage.setItem.mockImplementation((key, value) => {
+    Object.assign(sessionStorage, { [key]: value });
     return [key, value];
   });
 };
 const defineGetItem = () => {
-  localStorage.getItem.mockImplementation((key) => localStorage[key]);
+  sessionStorage.getItem.mockImplementation((key) => sessionStorage[key]);
 };
-const initLocalStorage = () => {
-  defineLocalStorage();
+const initSessionStorage = () => {
+  defineSessionStorage();
   defineSetItem();
   defineGetItem();
 };
 
 describe("Test local storage hook", () => {
   beforeEach(() => {
-    initLocalStorage();
+    initSessionStorage();
   });
 
   afterEach(cleanup);
 
   test("Initializing hook without argumets, it won't store a thing", () => {
     function Test() {
-      const [storage, setStorage] = useLocalStorage();
+      const [storage, setStorage] = useSessionStorage();
       expect(storage).not.toBeDefined();
       expect(setStorage).toEqual(expect.any(Function));
       return <></>;
@@ -59,10 +59,10 @@ describe("Test local storage hook", () => {
     function Test() {
       const key = "hello",
         value = "world";
-      const [storage, setStorage] = useLocalStorage(key, value);
+      const [storage, setStorage] = useSessionStorage(key, value);
       useEffect(() => {
-        expect(localStorage.setItem).toHaveBeenCalledWith("hello", "world");
-        expect(localStorage.getItem).toHaveBeenCalledWith("hello");
+        expect(sessionStorage.setItem).toHaveBeenCalledWith("hello", "world");
+        expect(sessionStorage.getItem).toHaveBeenCalledWith("hello");
         expect(storage).toEqual(value);
       });
       return <></>;
@@ -71,13 +71,13 @@ describe("Test local storage hook", () => {
   });
 
   test("When initialized and the item is stored in local storage, it will take the stored value", () => {
-    localStorage.setItem("hello", "people");
+    sessionStorage.setItem("hello", "people");
     function Test() {
       const key = "hello",
         value = "world";
-      const [storage, setStorage] = useLocalStorage(key, value);
+      const [storage, setStorage] = useSessionStorage(key, value);
       useEffect(() => {
-        expect(localStorage.getItem).toHaveBeenCalledWith("hello");
+        expect(sessionStorage.getItem).toHaveBeenCalledWith("hello");
         expect(storage).toEqual("people");
       });
       return <></>;
@@ -87,17 +87,17 @@ describe("Test local storage hook", () => {
 
 
   test("Use setStorage to change the state of local storage", () => {
-    localStorage.setItem("hello", "people");
+    sessionStorage.setItem("hello", "people");
     function Test() {
       const key = "hello",
         value = "world";
-      const [storage, setStorage] = useLocalStorage(key, value);
+      const [storage, setStorage] = useSessionStorage(key, value);
       if(storage === "people"){
         setStorage("humans");
       };
       useEffect(() => {
-        expect(localStorage.setItem).toHaveBeenCalledWith("hello", "humans");
-        expect(localStorage.getItem).toHaveBeenCalledWith("hello");
+        expect(sessionStorage.setItem).toHaveBeenCalledWith("hello", "humans");
+        expect(sessionStorage.getItem).toHaveBeenCalledWith("hello");
         expect(storage).toEqual("humans");
       });
     return <></>;

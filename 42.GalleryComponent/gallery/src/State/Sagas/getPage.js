@@ -28,5 +28,6 @@ export function* getPage(action) {
       return;
     }
     default:
+      return;
   }
 }

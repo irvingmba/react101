@@ -1,10 +1,10 @@
 import { useCallback, useMemo, useState } from "react";
 
-export default function useLocalStorage(key, value) {
+export default function useSessionStorage(key, value) {
   const initValue = useMemo(() => {
-    const stored = localStorage.getItem(key);
+    const stored = sessionStorage.getItem(key);
     if (stored) return stored;
-    localStorage.setItem(key, value);
+    sessionStorage.setItem(key, value);
     return value;
   }, [value]);
 
@@ -13,7 +13,7 @@ export default function useLocalStorage(key, value) {
   const setStorage = useCallback(
     (update) => {
       setState(update);
-      localStorage.setItem(key, update);
+      sessionStorage.setItem(key, update);
     }
   , []);
 
