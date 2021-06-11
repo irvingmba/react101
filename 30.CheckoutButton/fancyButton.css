@@ -1,34 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
+
 .’fancy-button’ {
     position: relative;
     box-sizing: border-box;
     display: inline-block;
-    margin: 2em;
-    border-radius: 0.5em;
-    padding: 0 0.2em 0.5em 0.2em;
-    border: 0.1em #666 solid;
+    margin: 1.22em 1.23em;
+    border-radius: 0.35em;
+    padding: 0.32em 0.95em 0.54em 1.02em;
+    border: 0.035em #666 solid;
     background-color: #cbcbcb;
     text-decoration: none;
     text-transform: uppercase;
-    font-family: sans-serif;
-    font-weight: bold;
+    font-family: 'Roboto', sans-serif;
     color: #555555;
-    box-shadow: 0 0.1em 0.1em 0 #666, 0 0 0 0.5em #cbcbcb, 0 0 0 0.7em white, 0 0 0 0.8em, 0 1.3em 0 #dcdcdc inset;
+    box-shadow: 0 0.1rem 0.1rem 0 #606060, 0 0 0 0.23em #cbcbcb, 0 0 0 0.33em white, 0 0 0 0.4em,  0 1.14em 0 #dcdcdc inset, 0 0 1em 0 #b5b5b5 inset;
+    font-size: 1.6em;
+    letter-spacing: 0.017em;
+    transform: scaleY(0.973);
 }
 
 .’fancy-button’::before {
     position: relative;
     top: 0.1em;
+    left: -0.25em;
     content: "★";
-    margin-right: 0.2em;
     color: #888888;
-    font-size: 2em;
+    font-size: 1.3em;
 }
 
 .’fancy-button’::after {
     position: relative;
     top: 0.1em;
+    left: 0.32em;
     content: "★";
-    margin-left: 0.2em;
     color: #888888;
-    font-size: 2em;
+    font-size: 1.3em;
 }

@@ -1,18 +1,50 @@
+
 form {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    width: 25em;
-    font-family: sans-serif;
+    width: 17em;
+    font-family: "Nimbus Sans" ,"Khmer OS" ,sans-serif;
+    padding: 2em 0.45em;
+    font-size: 1.5em;
 }
 
 div {
     flex-grow: 1;
+    position: relative;
+}
+
+div::before {
+    content: attr(data-hint);
+    position: absolute;
+    font-family: "Nimbus Sans" ,"Khmer OS" ,sans-serif;
+    font-size: 0.5em;
+    font-weight: 1000;
+    top: -3.08em;
+    background-color: black;
+    color: white;
+    padding: 0.54em;
+    letter-spacing: -0.032em;
+    box-shadow: 0.3em 0.3em 1em black;
+}
+
+div::after {
+    content: "";
+    border: 0.2em solid black;
+    position: absolute;
+    transform: rotate(45deg);
+    top: -0.6em;
+    left: 1em;
+    box-shadow: 0.08em 0.08em .5em black;
 }
 
 input {
     border: none;
     border-bottom: 1px solid black;
+    height: 0.85em;
+    font-size: 0.9em;
+    width: 10.8em;
+    font-family: "Nimbus Sans" ,"Khmer OS" ,sans-serif;
 }
 
 button {
@@ -20,6 +52,9 @@ button {
     border-radius: 2em;
     background-color: #ff6348;
     color: white;
-    padding: 0.7em 1.4em;
-    font-family: 'Open Sans', sans-serif;
+    font-family: "Nimbus Sans",'Open Sans', sans-serif;
+    font-size: large;
+    padding: 0.6em 1.5em 0.3em;
+    font-weight: 1000;
+    border: transparent;
 }
