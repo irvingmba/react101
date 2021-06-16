@@ -1,0 +1,133 @@
+@media only screen and (min-width: 600px) {
+
+    body {
+        margin: 1em 1.6em 1em 1em;
+        width: auto;
+    }
+
+    #guide {
+        width: 100%;
+        position: absolute;
+        height: auto;
+        top: -0.2em;
+        left: -0.2em;
+        opacity: 50%;
+        display: block;
+    }
+
+    header {
+        justify-content: space-between;
+    }
+
+    .navbar {
+        justify-content: flex-end;
+        border: none;
+        padding: 0;
+        order: 1;
+        width: 70%;
+    }
+
+    .navbar a {
+        flex-grow: 0;
+        font-size: 1.07em;
+        padding: 0 0.5em 0 0.85em;
+    }
+
+    .navbar a img {
+        display: inline-block;
+        width: 2em;
+    }
+
+    .logo {
+        padding: 0;
+        width: 8.5em;
+        height: 8.5em;
+        margin: 0;
+        z-index: 1;
+    }
+
+    .logo figcaption {
+        top: 1.3em;
+        left: 1.3em;
+        font-size: 1.5em;
+    }
+    
+    .feature {
+        margin-top: -1.3em;
+        height: 29.3em;
+    }
+
+    .feature img {
+        margin: 0;
+        width: 100%;
+        height: auto;
+        z-index: 1;
+    }
+
+    .feature figcaption {
+        top: 19.8em;
+    }
+
+    .feature figcaption p:first-child {
+        font-size: 1.7em;
+        width: 36.5%;
+        padding-right: 0;
+    }
+
+    .feature figcaption p:last-child {
+        font-size: 1.3em;
+        width: 63%;
+        flex-grow: 0;
+        padding-right: 0;
+    }
+
+    .feature-bar {
+        padding-top: 0.25em;
+        font-size: 1.7em;
+    }
+
+    .subscribe {
+        margin-top: 2.2em;
+        padding: 0;
+        align-items: center;
+    }
+
+    .subscribe figure {
+        flex-grow: 0;
+        height: 3.5em;
+        padding: 0.7em 1.1em;
+    }
+
+    .subscribe p {
+        padding: 0.2em 1em;
+        font-size: 1.18em;
+        width: 39%;
+        line-height: 1.3em;
+    }
+
+    .subscribe form {
+        padding: 0 1.2em 0 0.5em;
+    }
+
+    .subscribe input {
+        font-size: 0.9em;
+        width: 12.5em;
+        padding: 0;
+        height: 1.6em;
+    }
+
+    .articles {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .story {
+        margin-top: 2.2em;
+    }
+
+    .story figure {
+        margin-left: 1.3em;
+        width: 80%;
+    }
+
+}
