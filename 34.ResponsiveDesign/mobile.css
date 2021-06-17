@@ -7,7 +7,7 @@ body {
     width: 100%;
 }
 
-#guide{
+#guide {
     display: none;
 }
 
@@ -30,6 +30,10 @@ body {
 }
 
 .navbar a img {
+    display: none;
+}
+
+.posts {
     display: none;
 }
 
@@ -139,6 +143,9 @@ header {
     color: #31c2c2;
     text-decoration: none;
 }
+.feature-bar li a p {
+    display: none;
+}
 
 .feature-bar li a:active {
     background-color: #d1ebe7;
@@ -235,4 +242,8 @@ header {
 .story .date a {
     color: #31c2c2;
     text-decoration: none;
+}
+
+footer {
+    display: none;
 }

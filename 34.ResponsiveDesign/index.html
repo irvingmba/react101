@@ -1,46 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Responsive Design</title>
-    <link rel="stylesheet" href="reset.css" />
-    <link rel="stylesheet" href="mobile.css" />
-    <link rel="stylesheet" href="middle-screen.css" />
-  </head>
-  <body>
-    <img src="ex34_m.jpg" id="guide" />
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Responsive Design</title>
+  <link rel="stylesheet" href="reset.css" />
+  <link rel="stylesheet" href="mobile.css" />
+  <link rel="stylesheet" href="middle-screen.css" />
+  <link rel="stylesheet" href="desktop-screen.css" />
+</head>
+
+<body>
+  <div class="desktop">
+
     <header>
       <nav class="navbar">
-        <a href="#"><figure>
-          <img src="tutorials.svg">
-          <figcaption>Tutorials</figcaption>
-        </figure></a>
-        <a href="#"><figure>
-          <img src="news.svg">
-          <figcaption>News</figcaption></figure></a>
-        <a href="#"><figure>
-          <img src="toptips.svg">
-          <figcaption>Top-Tips</figcaption></figure></a>
-        <a href="#"><figure>
-          <img src="contact.svg">
-          <figcaption>Contact Us</figcaption></figure></a>
-        <a href="#"><figure>
-          <img src="about.svg">
-          <figcaption>About</figcaption></figure></a>
+        <a href="#">
+          <figure>
+            <img src="tutorials.svg">
+            <figcaption>Tutorials</figcaption>
+          </figure>
+        </a>
+        <a href="#">
+          <figure>
+            <img src="news.svg">
+            <figcaption>News</figcaption>
+          </figure>
+        </a>
+        <a href="#">
+          <figure>
+            <img src="toptips.svg">
+            <figcaption>Top-Tips</figcaption>
+          </figure>
+        </a>
+        <a href="#">
+          <figure>
+            <img src="contact.svg">
+            <figcaption>Contact Us</figcaption>
+          </figure>
+        </a>
+        <a href="#">
+          <figure>
+            <img src="about.svg">
+            <figcaption>About</figcaption>
+          </figure>
+        </a>
       </nav>
       <figure class="logo">
-        <img
-          src="https://gitlab.com/IEH/itkglob-assets/-/raw/master/html-css-assets/logo.jpg   "
-        />
+        <img src="https://gitlab.com/IEH/itkglob-assets/-/raw/master/html-css-assets/logo.jpg   " />
         <figcaption>Blank Page Coding</figcaption>
       </figure>
+      <div class="posts">
+        <div class="post">
+          <h6>LATEST TWEET</h6>
+          <p>" Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere culpa cupiditate eveniet nam nihil? Iure
+            nihil earum quibusdam necessitatibus rem, nostrum saepe consequuntur illum et aliquid, eligendi hic qui ea. "
+          </p>
+          <button class="social-button">Join the conversation</button>
+        </div>
+        <div class="post friend-post">
+          <h6>LET'S BE FRIENDS</h6>
+          <p>For weekly friends, community recommendations, and more, like us on Facebook.
+          </p>
+          <button class="social-button friends-button">Join the conversation</button>
+        </div>
+      </div>
     </header>
     <section>
       <figure class="feature">
-        <img
-          src="https://gitlab.com/IEH/itkglob-assets/-/raw/master/html-css-assets/feature-story.jpg"
-        />
+        <img src="https://gitlab.com/IEH/itkglob-assets/-/raw/master/html-css-assets/feature-story.jpg" />
         <figcaption>
           <p>Read, Learn, Share</p>
           <p>Get daily how-tos, stories & updates with the latest news.</p>
@@ -48,10 +77,10 @@
       </figure>
       <div class="sticky">
         <ul class="feature-bar">
-          <li><a href="#">Tutorials</a></li>
-          <li><a href="#">News</a></li>
-          <li><a href="#">Top-Tips</a></li>
-          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Tutorials<p>learn the latest</p></a></li>
+          <li><a href="#">News<p>Know what is happening</p></a></li>
+          <li><a href="#">Top-Tips<p>must know tricks</p></a></li>
+          <li><a href="#">Contact Us<p>we want to hear from you</p></a></li>
         </ul>
       </div>
       <article class="subscribe">
@@ -59,47 +88,73 @@
           <image src="mail_outline.svg">
 
         </figure>
-          <p>Sign up for our newsletter to receive a handpicked selection of best tutorials, and news, delivered weekly to your inbox.</p>
-          <form>
-            <input placeholder="Email" />
-            <input type="submit" value="Subscribe" />
-          </form>
+        <p>Sign up for our newsletter to receive a handpicked selection of best tutorials, and news, delivered weekly to
+          your inbox.</p>
+        <form>
+          <input placeholder="Email" />
+          <input type="submit" value="Subscribe" />
+        </form>
       </article>
       <div class="articles">
 
         <article class="story">
           <figure>
-            <img src="https://gitlab.com/IEH/itkglob-assets/-/raw/master/html-css-assets/story1.jpg" >
+            <img src="https://gitlab.com/IEH/itkglob-assets/-/raw/master/html-css-assets/story1.jpg">
           </figure>
-          <h6>Levels upon levels of nesting.How to go deeper</h6>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis quod molestiae, quam labore accusamus quibusdam maxime! Quo in facere, minima vitae ab distinctio ad fugit eius! Distinctio error voluptatibus sed?</p>
+          <h6>Levels upon levels of nesting. How to go deeper</h6>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis quod molestiae, quam labore accusamus
+            quibusdam maxime! Quo in facere, minima vitae ab distinctio ad fugit eius! Distinctio error voluptatibus
+            sed?</p>
           <p class="date">Sep 16, 2020 / <a href="#">Read >></a></p>
         </article>
         <article class="story">
           <figure>
-            <img src="https://gitlab.com/IEH/itkglob-assets/-/raw/master/html-css-assets/story2.jpg" >
+            <img src="https://gitlab.com/IEH/itkglob-assets/-/raw/master/html-css-assets/story2.jpg">
           </figure>
           <h6>Desciphering someone else's mess</h6>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti, itaque ea blanditiis cumque minus autem aliquam odio culpa eum at consectetur voluptate illum ipsum, molestias quam rem sunt dolor error!</p>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti, itaque ea blanditiis cumque minus autem
+            aliquam odio culpa eum at consectetur voluptate illum ipsum, molestias quam rem sunt dolor error!</p>
           <p class="date">Sep 10, 2020 / <a href="#">Read >></a></p>
         </article>
         <article class="story">
           <figure>
-            <img src="https://gitlab.com/IEH/itkglob-assets/-/raw/master/html-css-assets/story3.jpg" >
+            <img src="https://gitlab.com/IEH/itkglob-assets/-/raw/master/html-css-assets/story3.jpg">
           </figure>
           <h6>How we can help you drop jQuery</h6>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic eveniet vero veritatis ab molestiae officia in, atque labore, similique pariatur nobis asperiores, rem eos nostrum culpa tenetur voluptas. Aut, harum.</p>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic eveniet vero veritatis ab molestiae officia
+            in, atque labore, similique pariatur nobis asperiores, rem eos nostrum culpa tenetur voluptas. Aut, harum.
+          </p>
           <p class="date">Sep 9, 2020 / <a href="#">Read >></a></p>
         </article>
         <article class="story">
           <figure>
-            <img src="https://gitlab.com/IEH/itkglob-assets/-/raw/master/html-css-assets/story4.jpg" >
+            <img src="https://gitlab.com/IEH/itkglob-assets/-/raw/master/html-css-assets/story4.jpg">
           </figure>
           <h6>Keep your focus</h6>
-          <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Saepe distinctio ipsum exercitationem officia neque repudiandae quidem molestias quo ipsam nobis voluptas nisi fugit dolore, id numquam quia modi sapiente consequuntur.</p>
+          <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Saepe distinctio ipsum exercitationem officia
+            neque repudiandae quidem molestias quo ipsam nobis voluptas nisi fugit dolore, id numquam quia modi sapiente
+            consequuntur.</p>
           <p class="date">Sep 16, 2020 / <a href="#">Read >></a></p>
         </article>
       </div>
     </section>
-  </body>
+  </div>
+  <footer>
+    <div class="rigths">
+
+      <p class="footer-links">
+        <a href="#">privacy policy</a> | 
+        <a href="#">terms of use</a> | 
+        <a href="#">contact</a>
+      </p>
+      <p class="footer-copy">&copy; Intekglobal</p>
+      <p class="footer-note">Stock Images from <a href="#">pexels</a></p>
+    </div>
+    <div class="social-logos">
+      <img src="twitter_logo.svg">
+      <img src="face_logo.svg">
+    </div>
+  </footer>
+</body>
+
 </html>
