@@ -23,36 +23,54 @@ function action(type, payload) {
   return { type, payload };
 }
 
+function initDB(dbName, dateVersion, store) {
+  const request = window.indexedDB.open(dbName, dateVersion);
+  request.onerror = function (event) {
+    console.error(event.target);
+  };
+  request.onupgradeneeded = function (event) {
+    const db = event.target.result;
+    try {
+      db.createObjectStore(store, { autoIncrement: true });
+    } catch (e) {
+      db.deleteObjectStore(store);
+      db.createObjectStore(store, { autoIncrement: true });
+    }
+  };
+  return new Promise((res) => {
+    request.onsuccess = function (event) {
+      const _db = event.target.result;
+      res(_db);
+    };
+  });
+}
+
+function getIndexedData(db, getAsyncStore) {
+  return new Promise((res) => {
+    const objectStore = getAsyncStore(db);
+    const acc = [];
+    objectStore.then((store) => {
+      const cursorTransaction = store.openCursor();
+      cursorTransaction.onsuccess = function (event) {
+        const cursor = event.target.result;
+        if (cursor) {
+          const record = { key: cursor.key, value: cursor.value };
+          acc.push(record);
+          cursor.continue();
+        } else {
+          res(acc);
+        }
+      };
+    });
+  });
+}
+
 export default function useIndexedDB(store = "default", dbName = "myDB") {
   const dateVersion = useMemo(() => Date.now(), []);
-  // const request = indexedDB.open(dbName, dateVersion);
 
   let db = useRef({});
 
-  function initDB() {
-    const request = window.indexedDB.open(dbName, dateVersion);
-    request.onerror = function (event) {
-      console.error(event.target);
-    };
-    request.onupgradeneeded = function (event) {
-      const db = event.target.result;
-      try {
-        db.createObjectStore(store, { autoIncrement: true });
-      } catch (e) {
-        db.deleteObjectStore(store);
-        db.createObjectStore(store, { autoIncrement: true });
-      }
-    };
-    return new Promise((res) => {
-      request.onsuccess = function (event) {
-        const _db = event.target.result;
-        // getStoredData(_db);
-        res(_db);
-      };
-    });
-  }
-
-  db.current = useMemo(() => initDB(), []);
+  db.current = useMemo(() => initDB(dbName, dateVersion, store), []);
 
   function getAsyncStore(db) {
     return db
@@ -61,40 +79,15 @@ export default function useIndexedDB(store = "default", dbName = "myDB") {
   }
 
   async function getStoredData(db) {
-    const data = await getIndexedData(db);
-    dispatch(action("SET", data ));
-  }
-
-  // async function setStoredData() {
-  //   const data = await getIndexedData(db);
-  //   return data;
-  // }
-
-  function getIndexedData(db) {
-    return new Promise((res) => {
-      const objectStore = getAsyncStore(db);
-      const acc = [];
-      objectStore.then((store) => {
-        const cursorTransaction = store.openCursor();
-        cursorTransaction.onsuccess = function (event) {
-          const cursor = event.target.result;
-          if (cursor) {
-            const record = { key: cursor.key, value: cursor.value };
-            acc.push(record);
-            cursor.continue();
-          } else {
-            res(acc);
-          }
-        };
-      });
-    });
+    const data = await getIndexedData(db, getAsyncStore);
+    dispatch(action("SET", data));
   }
 
   useEffect(() => {
     getStoredData(db.current);
-    return async function clean(){
+    return async function clean() {
       const _db = await db.current;
-      _db.close();
+      await _db.close();
     };
   }, []);
 
