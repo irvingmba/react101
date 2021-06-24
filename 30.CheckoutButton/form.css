@@ -3,7 +3,7 @@ form {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    width: 17em;
+    width: 18em;
     font-family: "Nimbus Sans" ,"Khmer OS" ,sans-serif;
     padding: 2em 0.45em;
     font-size: 1.5em;
@@ -54,7 +54,7 @@ button {
     color: white;
     font-family: "Nimbus Sans",'Open Sans', sans-serif;
     font-size: large;
-    padding: 0.6em 1.5em 0.3em;
+    padding: 0.6em 1.5em;
     font-weight: 1000;
     border: transparent;
 }

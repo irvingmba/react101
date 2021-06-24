@@ -13,10 +13,11 @@
     text-transform: uppercase;
     font-family: 'Roboto', sans-serif;
     color: #555555;
-    box-shadow: 0 0.1rem 0.1rem 0 #606060, 0 0 0 0.23em #cbcbcb, 0 0 0 0.33em white, 0 0 0 0.4em,  0 1.14em 0 #dcdcdc inset, 0 0 1em 0 #b5b5b5 inset;
+    box-shadow: 0 0.1rem 0.1rem 0 #606060, 0 0 0 0.23em #cbcbcb, 0 0 0 0.33em white, 0 0 0 0.4em, 0 -2.5em 3em -2em #adadad inset, 0 1.14em 0 #dedede inset;
     font-size: 1.6em;
     letter-spacing: 0.017em;
     transform: scaleY(0.973);
+    text-shadow: 0 0.01em 0.05em whitesmoke;
 }
 
 .’fancy-button’::before {
