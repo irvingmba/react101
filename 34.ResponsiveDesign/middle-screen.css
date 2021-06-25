@@ -49,6 +49,7 @@
         top: 19.8em;
     }
     .feature figcaption p:first-child {
+        opacity: 100%;
         font-size: 1.7em;
         width: 36.5%;
         padding-right: 0;
